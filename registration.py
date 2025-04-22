@@ -364,6 +364,21 @@ class Graph:
     # TODO: Modify this method. You may delete this comment when you are done.
     def compute_depth(self):
         """Computes depth for each vertex in the graph."""
+        for i in self.vertices:
+            a = self.compute_depth_helper(i)
+            i.depth = a
+
+    def compute_depth_helper(self, v):
+        """
+        compute depth helper
+        """
+        if len(self.get_adjacent_vertices(self.get_index(v.label)))==0:
+            return 0
+        a = 0
+        for x in self.get_adjacent_vertices(self.get_index(v.label)):
+            a = max(a, 1+self.compute_depth_helper(self.vertices[x]))
+        return a
+        
 
 
     # TODO: Modify this method. You may delete this comment when you are done.
