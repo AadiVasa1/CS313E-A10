@@ -379,6 +379,9 @@ class Graph:
         return ans
     
     def has_cycle_helper(self, v):
+        """
+        has cycle helper method
+        """
         s = Stack()
         for x in self.get_adjacent_vertices(self.get_index(v.label)):
             s.push(self.vertices[x])
