@@ -361,7 +361,6 @@ class Graph:
         return vertices
 
 
-    # TODO: Modify this method. You may delete this comment when you are done.
     def compute_depth(self):
         """Computes depth for each vertex in the graph."""
         for i in self.vertices:
@@ -378,10 +377,7 @@ class Graph:
         for x in self.get_adjacent_vertices(self.get_index(v.label)):
             a = max(a, 1+self.compute_depth_helper(self.vertices[x]))
         return a
-        
 
-
-    # TODO: Modify this method. You may delete this comment when you are done.
     def has_cycle(self):
         """
         Determine whether or not the graph has a cycle.
@@ -392,7 +388,7 @@ class Graph:
         for i in self.vertices:
             ans = ans or self.has_cycle_helper(i)
         return ans
-    
+
     def has_cycle_helper(self, v):
         """
         has cycle helper method
