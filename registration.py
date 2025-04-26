@@ -394,16 +394,17 @@ class Graph:
         """
         s = Stack()
         for x in self.get_adjacent_vertices(self.get_index(v.label)):
-            s.push(self.vertices[x])
+            s.push([self.vertices[x], [v]])
         while s.is_empty() is False:
-            cur = s.pop()
-            if cur==v:
+            cur, path = s.pop()
+            if cur in path:
                 return True
+            path.append(cur)
             if cur.visited is False:
                 cur.visited = True
                 for x in self.get_adjacent_vertices(self.get_index(cur.label)):
                     if self.vertices[x].visited is False:
-                        s.push(self.vertices[x])
+                        s.push([self.vertices[x], path])
         return False
 
     def get_registration_plan(self):
