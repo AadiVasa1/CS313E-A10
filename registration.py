@@ -383,6 +383,8 @@ class Graph:
         """
         ans = False
         for i in self.vertices:
+            for j in self.vertices:
+                j.visited = False
             ans = ans or self.has_cycle_helper(i)
         return ans
 
