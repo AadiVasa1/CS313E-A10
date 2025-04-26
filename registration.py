@@ -402,7 +402,8 @@ class Graph:
             if cur.visited is False:
                 cur.visited = True
                 for x in self.get_adjacent_vertices(self.get_index(cur.label)):
-                    s.push(self.vertices[x])
+                    if self.vertices[x].visited is False:
+                        s.push(self.vertices[x])
         return False
 
     def get_registration_plan(self):
