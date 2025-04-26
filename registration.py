@@ -2,7 +2,7 @@
 Student information for this assignment:
 
 Replace <FULL NAME> with your name.
-On my/our honor, Aadi Vasa and <FULL NAME>, this
+On my/our honor, Aadi Vasa and Raghuvendra Chowdhry, this
 programming assignment is my own work and I have not provided this code to
 any other student.
 
@@ -13,11 +13,8 @@ code to someone else), the case shall be submitted to the Office of the Dean of
 Students. Academic penalties up to and including an F in the course are likely.
 
 UT EID 1: adv982
-UT EID 2:
+UT EID 2: rbc993
 """
-
-# TODO: Delete this import if you choose not to use it. Delete this comment when you are done.
-import sys
 
 
 class HeapError(Exception):
@@ -406,9 +403,6 @@ class Graph:
                     s.push(self.vertices[x])
         return False
 
-
-
-    # TODO: Modify this method. You may delete this comment when you are done.
     def get_registration_plan(self):
         """
         Return a valid ordering of courses to take for registration as a 2D
@@ -417,14 +411,39 @@ class Graph:
         pre: a valid registration plan exists.
         post: returns a 2D list of strings, where each inner list represents a semester
         """
+        self.compute_depth()
         courses = []
+        n = len(self.vertices)
+        incount = [0] * n
+        for vertex in range(n):
+            for neighbor in self.get_adjacent_vertices(vertex):
+                incount[neighbor] += 1
 
-        # TODO: Add code here. You may delete this comment when you are done.
+        available = BinaryHeap()
+        heap_len = 0
+        for vertex in range(n):
+            if incount[vertex] == 0:
+                available.insert((-1 * self.vertices[vertex].depth, vertex))
+                heap_len += 1
 
+        while not available.is_empty():
+            sem = []
+            num_courses = min(4, heap_len)
+            unlocked = []
+            for _ in range(num_courses):
+                _, vertex = available.delete()
+                heap_len -= 1
+                sem.append(self.vertices[vertex].label)
+                for neighbor in self.get_adjacent_vertices(vertex):
+                    incount[neighbor] -= 1
+                    if incount[neighbor] == 0:
+                        unlocked.append(neighbor)
+            for vertex in unlocked:
+                available.insert((-1 * self.vertices[vertex].depth, vertex))
+                heap_len += 1
+            courses.append(sem)
         return courses
 
-
-# TODO: Modify this function. You may delete this comment when you are done.
 def main():
     """
     The main function to retrieve a registration plan.
@@ -435,12 +454,21 @@ def main():
     graph = Graph()
 
     # read the number of vertices
-
+    num_vertices = int(input())
     # read the vertices and add them into the graph
-
+    for _ in range(num_vertices):
+        label = input()
+        graph.add_vertex(label)
     # read the number of edges
-
+    num_edges = int(input())
     # read the edges and insert them into the graph
+    for _ in range(num_edges):
+        edge = input()
+        start_label = edge[0]
+        finish_label = edge[2]
+        start_index = graph.get_index(start_label)
+        finish_index = graph.get_index(finish_label)
+        graph.add_edge(start_index, finish_index)
     # you will need to call the method to convert them from their labels to their index
 
     ####################################################################################
